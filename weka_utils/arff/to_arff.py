@@ -3,7 +3,7 @@ def dataframe(data, attr_spec, out_path):
     '''
     Creates an arff file from a pandas DataFrame
     :param data: pandas DataFrame containing data
-    :param attr_spec: specification of data type for arff file. E.g., for numeric attr = 'NUMERIC', for a categorical
+    :param attr_spec: specification (dictionary) of data type for arff file. E.g., for numeric attr = 'NUMERIC', for a categorical
         attr such as weather = '{Sunny, foggy, rainy}', for dates = 'DATE "yyyy-MM-dd HH:mm:ss"'
     :param out_path: path where arff file will be saved
     :return:
