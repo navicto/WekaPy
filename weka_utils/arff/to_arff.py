@@ -41,7 +41,7 @@ def nominal_values(data):
     values = data.unique().tolist()
     # print data
     # print '{' + ','.join([str(x) for x in values if x and x not in [np.nan, 'nan', 'NaN', 'NAN']]) + '}'
-    return '{' + ','.join([str(x) for x in values if x not in [np.nan, 'nan', 'NaN', 'NAN']]) + '}'
+    return '{' + ','.join([str(x) for x in values if x not in [np.nan, 'nan', 'NaN', 'NAN', '?']]) + '}'
 
 def replace_missing(line, new_value):
     '''

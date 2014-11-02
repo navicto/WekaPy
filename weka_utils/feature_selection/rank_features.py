@@ -79,16 +79,24 @@ class FeatureRanking(object):
     Reads a text file containing feature rankings (created with weka), and creates an object with rankings by index or
     name.
     '''
-    def __init__(self, ranking_path):
+    def __init__(self, ranking_path, crossval=True, threshold=0.):
         self._ranking_indices, self._ranking_names = [], []
         with open(ranking_path, 'r') as ranking_file:
-            while 'Ranked attributes:' not in ranking_file.next():
-                continue
+            if not crossval: #feature ranking of whole data
+                while 'Ranked attributes:' not in ranking_file.next():
+                    continue
+
+            else:
+                while 'average merit' not in ranking_file.next():
+                    continue
             for line in ranking_file:
                 if line.strip(): #line not blank
-                    f_index, f_name = re.search(r'0\.\d+\s+(\d+)\s+(\w+)', line).groups()
+                    split_line = re.split(r'\s+', line.strip())
+                    f_index, f_name = (split_line[-2], split_line[-1])
                     self._ranking_indices += [f_index]
                     self._ranking_names += [f_name]
+                    if float(split_line[0]) <= threshold:
+                        break
                     continue
                 else:
                     break
