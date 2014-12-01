@@ -92,12 +92,11 @@ class FeatureRanking(object):
             for line in ranking_file:
                 if line.strip(): #line not blank
                     split_line = re.split(r'\s+', line.strip())
+                    if float(split_line[0]) <= threshold:
+                        continue
                     f_index, f_name = (split_line[-2], split_line[-1])
                     self._ranking_indices += [f_index]
                     self._ranking_names += [f_name]
-                    if float(split_line[0]) <= threshold:
-                        break
-                    continue
                 else:
                     break
 

@@ -37,5 +37,5 @@ def mk_nonExist_dirs(*dirs, **kwargs):
                 if kwargs['verbose']:
                     print 'Created directory: ' + folder
 
-mk_nonExist_dirs('/Users/Victor/Desktop/Test', verbose=True)
-mk_nonExist_dirs('/Users/Victor/Desktop/FeatureSelection', verbose=True)
+# mk_nonExist_dirs('/Users/Victor/Desktop/Test', verbose=True)
+# mk_nonExist_dirs('/Users/Victor/Desktop/FeatureSelection', verbose=True)

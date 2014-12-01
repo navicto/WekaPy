@@ -42,21 +42,21 @@ def rm_features(source, out_path, rm_by, features, reverse = False, heap='16g', 
     else:
         raise AttributeError('Remove by attribute either not specified, or differnet from "name" or "index"')
     if reverse:
-        cl.add2command(',last -V ')
+        cl.add2command(' -V ')
     cl.add2command(' -i ' + cl._source + ' -o ' + cl._output)
 
     return cl
 
-#sample of how to use this function
-cp = '/Users/Victor/"Box Sync"/DBMI/ResearchProject/weka3-7-10/weka.jar'
-heap = '2g'
-source = '/Users/Victor/Desktop/weather.nominal.arff'
-out_path = '/Users/Victor/Desktop/weather.nominal_rm_1_3.arff'
-rm_by = 'index'
-features = [1,3]
-reverse = False
-
-cl = rm_features(source, out_path, rm_by, features, heap=heap, cp=cp, reverse=reverse)
-print cl
-# cl.execute(verbose=True, shell=True)
+# #sample of how to use this function
+# cp = '/Users/Victor/"Box Sync"/DBMI/ResearchProject/weka3-7-10/weka.jar'
+# heap = '2g'
+# source = '/Users/Victor/Desktop/weather.nominal.arff'
+# out_path = '/Users/Victor/Desktop/weather.nominal_rm_1_3.arff'
+# rm_by = 'index'
+# features = [1,3]
+# reverse = False
+#
+# cl = rm_features(source, out_path, rm_by, features, heap=heap, cp=cp, reverse=reverse)
+# print cl
+# # cl.execute(verbose=True, shell=True)
 
