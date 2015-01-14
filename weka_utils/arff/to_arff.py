@@ -1,6 +1,8 @@
 __author__ = 'Victor'
 import numpy as np
 import copy
+import re
+
 def dataframe2ARFF(data, attr_spec, out_path, missing_to='?'):
     '''
     Creates an arff file from a pandas DataFrame
@@ -29,6 +31,42 @@ def dataframe2ARFF(data, attr_spec, out_path, missing_to='?'):
         for row in data_copy.iterrows():
             line = [str(item) for item in row[1].tolist()]
             print>>out_arff, ','.join(replace_missing(line=line, new_value=missing_to))
+
+    print 'created file: ', out_path
+
+def csv_to_arff(in_path, out_path, missing_char, attr_spec, remove_index=True):
+    '''
+    Converts a csv file into an arff dataset
+    :param in_path: path to csv file
+    :param out_path: path to output arff file
+    :param missing_char: character with which to replace missing data (missing = '')
+    :param attr_spec: dictionary spec of attributes (same as in dataframe2ARFF
+    :param remove_index: whether the first column of each row should be suppressed (e.g., SID used as index)
+    :return: None
+    '''
+    with open(in_path, 'r') as in_file, open(out_path, 'w') as out_file:
+        print>>out_file, '@relation ' + out_path + '\n'
+        header = in_file.next().strip()
+        #declare attributes in arff file
+        for attr in re.split(r',', header):
+            if attr in attr_spec:
+                print>>out_file, '@attribute ' + attr + ' ' + attr_spec[attr]
+            else:
+                print>>out_file, '@attribute ' + attr + ' {T,F}'
+        print>>out_file, '\n'
+
+        #write data to arff
+        i = 1
+        print>>out_file, '@data'
+        for line in in_file:
+            line_data = re.split(r',', line.strip())
+            line_data = [x if x else missing_char for x in line_data]
+            if remove_index:
+                line_data[0:1] = []
+            print>>out_file, ','.join(line_data)
+            if i%1000 == 0: print i
+            i += 1
+            return
 
     print 'created file: ', out_path
 
