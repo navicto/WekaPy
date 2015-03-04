@@ -65,11 +65,10 @@ def name_mapping(source, order, index_base=1):
     '''
 
     current_order = arff_features(arff_path=source)
-
     if index_base == 0:
         return [get_index(attr, current_order) for attr in order if get_index(attr, current_order)]
     elif index_base == 1:
-        return [get_index(attr, current_order) + 1 for attr in order if get_index(attr, current_order)]
+        return [get_index(attr, current_order) + 1 for attr in order if get_index(attr, current_order) != None]
 def reorder(arff_path, out_path, feature_order, order_by='Index', weka_cp='', heap='64g'):
     '''
     Applies the reorder filter to an arff dataset

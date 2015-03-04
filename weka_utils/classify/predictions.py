@@ -71,15 +71,15 @@ class PredictionsFile(object):
             print>>out_file, '\n'.join(self._lines)
 
 #Demo:
-in_path = "D:\ResearchData\Readmission_AllCause\FeatureSelection\DRG\Predictions\predictions_nFeatures_1.csv"
-out_path = "D:\ResearchData\Readmission_AllCause\FeatureSelection\DRG\Predictions\predictions_nFeatures_78_new.csv"
-
-predictions = PredictionsFile(predictions_path=in_path, header_row=4)
-predictions.map_value('1:Y', 'T')
-predictions.map_value('2:N', 'F')
-predictions.map_value('\*', '')
-predictions.rename_column('distribution', 'p_T')
-predictions.rename_column('', 'p_F')
-# predictions.to_file(out_path)
-print predictions
+# in_path = "D:\ResearchData\Readmission_AllCause\FeatureSelection\DRG\Predictions\predictions_nFeatures_1.csv"
+# out_path = "D:\ResearchData\Readmission_AllCause\FeatureSelection\DRG\Predictions\predictions_nFeatures_78_new.csv"
+#
+# predictions = PredictionsFile(predictions_path=in_path, header_row=4)
+# predictions.map_value('1:Y', 'T')
+# predictions.map_value('2:N', 'F')
+# predictions.map_value('\*', '')
+# predictions.rename_column('distribution', 'p_T')
+# predictions.rename_column('', 'p_F')
+# # predictions.to_file(out_path)
+# print predictions
 
