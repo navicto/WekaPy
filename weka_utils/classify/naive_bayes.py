@@ -3,7 +3,7 @@ __author__ = 'Victor'
 from weka_utils.classify.classifier import ClassifierCommand, FilteredClassifierCommand
 
 def nbayes(training, output_predictions, output_model=None, crossval=False, nFolds=1, test=None, classifier_opts=None,
-                decimals=6, heap='16g', cp=None):
+                decimals=6, heap='16g', cp=None, map_testing=False):
     '''
     Train a naive bayes classifier. You can specify whether to output the model to a .model file
     :param training: training dataset
@@ -22,7 +22,7 @@ def nbayes(training, output_predictions, output_model=None, crossval=False, nFol
     cl.set_training(training)
     cl.set_test(test)
     cl.set_output(out_predictions=output_predictions, out_model=output_model)
-    cl.set_classifier('weka.classifiers.bayes.NaiveBayes', options=classifier_opts)
+    cl.set_classifier('weka.classifiers.bayes.NaiveBayes', options=classifier_opts, map_testing=map_testing)
     if crossval:
         cl.add2command(' -x ' + str(nFolds) + ' ')
     cl.add2command(' -t ' + cl._training)
@@ -36,7 +36,7 @@ def nbayes(training, output_predictions, output_model=None, crossval=False, nFol
     return cl
 
 def nbayes_feature_subset(training, output_predictions, features, classifier_opts=None, heap='16g', cp=None, test=None,
-                          output_model=None, crossval=False, nFolds=1, decimals=6):
+                          output_model=None, crossval=False, nFolds=1, decimals=6, map_testing=False):
     '''
     Train a naive Bayes classifier using only a subset of featuers, specified by indices. e.g., '1,2,3,last'
     :param training: training dataset
@@ -67,7 +67,7 @@ def nbayes_feature_subset(training, output_predictions, features, classifier_opt
         cl.add2command(' -T ' + cl._test + ' ')
     cl.add2command('-p -classifications "weka.classifiers.evaluation.output.prediction.CSV -distribution -decimals ' + str(decimals) + '" ')
     cl.set_filter('weka.filters.unsupervised.attribute.Remove', [('V', ''), ('R', features)])
-    cl.set_classifier('weka.classifiers.bayes.NaiveBayes', options=classifier_opts)
+    cl.set_classifier('weka.classifiers.bayes.NaiveBayes', options=classifier_opts, map_testing=map_testing)
     cl.add2command(' > ' + cl._output_predictions)
 
     return cl
