@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" deleteMissingItems="true" createEmptyFolders="true">
+    <serverData>
+      <paths name="trust.dbmi.pitt.edu">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/PycharmProjects/WekaPy" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/PycharmProjects/HospitalReadmission" local="$PROJECT_DIR$/../HospitalReadmission" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>
