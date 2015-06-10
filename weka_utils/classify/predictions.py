@@ -1,11 +1,12 @@
 __author__ = 'Victor'
 import re
+import sys
 
 class PredictionsFile(object):
     '''
     Manipulate predictions' files generated with weka classifiers
     '''
-    def __init__(self, predictions_path, header_row=0):
+    def __init__(self, predictions_path):
         '''
         Initialize predictions file object from path to file
         :param predictions_path: path to predictions file
@@ -14,8 +15,18 @@ class PredictionsFile(object):
         '''
         with open(predictions_path, 'r') as predictions_file:
             self._lines = predictions_file.readlines()
-            self._lines[0:header_row] = []
             self._lines = [line.strip() for line in self._lines if line != ''] #remove blank lines
+            #find header row
+            i = 0
+            for line in self._lines:
+                if 'inst#' in line:
+                    header_row = i
+                    break
+                else:
+                    i += 1
+
+            self._lines[0:header_row] = []
+
 
     def __str__(self, nrows=5):
         col_names = re.split(r',', self._lines[0])
@@ -46,6 +57,9 @@ class PredictionsFile(object):
                     self._lines[i] = re.sub(value_from, value_to, self._lines[i])
             except:
                 print 'could not process line: ' + str(self._lines[i])
+                print 'value from: ', value_from
+                print 'value_to: ', value_to
+                raise Exception('could not process line')
 
     def rename_column(self, col_from, col_to):
         '''
@@ -69,6 +83,13 @@ class PredictionsFile(object):
         '''
         with open(out_path, 'w') as out_file:
             print>>out_file, '\n'.join(self._lines)
+
+
+def main():
+    pass
+
+if __name__ == '__main__':
+    main()
 
 #Demo:
 # in_path = "D:\ResearchData\Readmission_AllCause\FeatureSelection\DRG\Predictions\predictions_nFeatures_1.csv"

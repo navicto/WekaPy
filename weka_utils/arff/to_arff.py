@@ -1,7 +1,8 @@
 __author__ = 'Victor'
 import numpy as np
-import copy
+import subprocess
 import re
+import pandas as pd
 
 def dataframe2ARFF(data, attr_spec, out_path, missing_to='?'):
     '''
@@ -52,7 +53,7 @@ def csv_to_arff(in_path, out_path, missing_char, attr_spec, remove_index=True):
             if attr in attr_spec:
                 print>>out_file, '@attribute ' + attr + ' ' + attr_spec[attr]
             else:
-                print>>out_file, '@attribute ' + attr + ' {T,F}'
+                print>>out_file, '@attribute ' + attr + ' {T,F,M}'
         print>>out_file, '\n'
 
         #write data to arff
@@ -66,9 +67,24 @@ def csv_to_arff(in_path, out_path, missing_char, attr_spec, remove_index=True):
             print>>out_file, ','.join(line_data)
             if i%1000 == 0: print i
             i += 1
-            return
 
     print 'created file: ', out_path
+
+def ARFF2DataFrame(arff_path, weka_cp, heap='64g'):
+    '''
+    Creates a pandas dataframe from an arff file
+    :param arff_path: path to arff file
+    :param weka_cp: path to weka.jar
+    :param heap: memory heap size
+    :return: df
+    '''
+    #convert arff to csv:
+    cl = 'java -Xmx' + heap + ' -cp ' + weka_cp + ' weka.core.converters.CSVSaver -i ' + arff_path + ' -o temp.csv'
+    subprocess.call(cl, shell=True)
+    #get pickle from csv
+    df = pd.read_csv('temp.csv')
+    subprocess.call('rm temp.csv', shell=True)
+    return df
 
 def nominal_values(data):
     '''
@@ -76,7 +92,7 @@ def nominal_values(data):
     :param data: pandas dataframe containing the variable with its instantiations
     :return: string for arff constructions. e.g., "{male,female}"
     '''
-    values = data.unique().tolist()
+    values = sorted(data.unique().tolist())
     # print data
     # print '{' + ','.join([str(x) for x in values if x and x not in [np.nan, 'nan', 'NaN', 'NAN']]) + '}'
     return '{' + ','.join([str(x) for x in values if x not in [np.nan, 'nan', 'NaN', 'NAN', '?']]) + '}'

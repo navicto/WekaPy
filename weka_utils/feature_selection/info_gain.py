@@ -3,7 +3,8 @@ __author__ = 'Victor'
 from weka_utils.feature_selection.rank_features import SingleFeatureEvaluator
 
 
-def info_gain(source, output, crossval=False, nfolds='1', threshold='-1.7E308', N_keep='-1', start_set=None, heap='32g', cp=None):
+def info_gain(source, output, crossval=False, nfolds='1', threshold='-1.7E308', N_keep='-1', start_set=None, heap='32g',
+              cp=None, missingAsCategory=False):
     '''
     :param source: arff source file
     :param output: file containing output ranking (should be text format)
@@ -26,6 +27,8 @@ def info_gain(source, output, crossval=False, nfolds='1', threshold='-1.7E308', 
     cl.search_method('weka.attributeSelection.Ranker', options + [('T', threshold), ('N', N_keep)])
     if crossval:
         cl.add2command(' -x ' + str(nfolds) + '')
+    if missingAsCategory:
+        cl.add2command(' -M ')
     cl.add2command(' -i ' + cl._source + ' > ' + cl._output)
 
     return cl

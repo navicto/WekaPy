@@ -22,7 +22,7 @@ class ClassifierCommand(WekaCommand):
         self._classifier = classifier
         self._classifier_opts = options
         if map_testing:
-            self._string += ' weka.classifiers.misc.InputMappedClassifier -I -trim -W '
+            self._string += ' weka.classifiers.misc.InputMappedClassifier -M -I -trim -W '
         self._string += ' ' + self._classifier + ' '
         if self._classifier_opts:
             for option, value in self._classifier_opts:
